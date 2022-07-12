@@ -238,20 +238,18 @@ jobs:
       - name: Generate Gremlin Server Base Image
         working-directory: .
         run: |
-          mvn clean install -pl :gremlin-server -DskipTests -DskipIntegrationTests=true -am && mvn install -Pdocker-images -pl :gremlin-server
-
-      - name: Execute Go tests
-        working-directory: ./gremlin-go
+          mvn clean install -pl :gremlin-server -DskipTests -DskipIntegrationTests=true -am
+          mvn install -Pdocker-images -pl :gremlin-server -DskipTests
+      - name: Build with Maven
+        working-directory: .
         run: |
-          chmod +x ./run.sh
-          ./run.sh
+          touch ./gremlin-go/.glv
+          mvn verify -pl :gremlin-go
         shell: bash
-
       - name: Upload to Codecov
         uses: codecov/codecov-action@v3
         with:
           working-directory: ./gremlin-go
-
       - name: Go-Vet
         working-directory: ./gremlin-go
         run: go vet ./...
