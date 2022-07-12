@@ -67,7 +67,8 @@ if [ -d "${TINKERMEM_PATH}" ]; then
   cd ${TINKERMEM_PATH}
 fi
 
-touch {gremlin-dotnet,gremlin-go,gremlin-dotnet/src,gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
+# omitting gremlin-go for now as gremlin-go builds via docker compose, to avoid docker in docker
+touch {gremlin-dotnet,gremlin-dotnet/src,gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
 
 # use a custom maven settings.xml
 if [ -r "settings.xml" ]; then
