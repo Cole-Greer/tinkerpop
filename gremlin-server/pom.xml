@@ -148,19 +148,6 @@ limitations under the License.
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>get-local-ip</id>
-                        <goals>
-                            <goal>local-ip</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -196,7 +183,7 @@ limitations under the License.
                         <executions>
                             <execution>
                                 <id>get-docker-host</id>
-                                <phase>generate-sources</phase>
+                                <phase>initialize</phase>
                                 <goals>
                                     <goal>execute</goal>
                                 </goals>
@@ -218,8 +205,8 @@ limitations under the License.
                         <version>1.2.1</version>
                         <executions>
                             <execution>
-                                <id>shutdown-container</id>
-                                <phase>integration-test</phase>
+                                <id>set-docker-host</id>
+                                <phase>initialize</phase>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
