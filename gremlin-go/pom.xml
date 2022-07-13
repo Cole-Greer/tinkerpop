@@ -115,6 +115,9 @@ limitations under the License.
                                 </goals>
                                 <configuration>
                                     <skip>${skipTests}</skip>
+                                    <environmentVariables>
+                                        <GREMLIN_SERVER>${project.version}</GREMLIN_SERVER>
+                                    </environmentVariables>
                                     <executable>docker-compose</executable>
                                     <arguments>
                                         <argument>down</argument>
