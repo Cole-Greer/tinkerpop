@@ -157,12 +157,12 @@ limitations under the License.
                  on each build as language variants will need the latest to do their work. windows users will need
                  to manually generate somehow until this is solved -->
             <id>linux</id>
-<!--            <activation>-->
-<!--                <activeByDefault>false</activeByDefault>-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
 <!--                <os>-->
 <!--                    <family>unix</family>-->
 <!--                </os>-->
-<!--            </activation>-->
+            </activation>
             <build>
                 <plugins>
                     <plugin>
