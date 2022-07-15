@@ -159,7 +159,7 @@ limitations under the License.
                 <executions>
                     <execution>
                         <id>build-image</id>
-                        <phase>install</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
