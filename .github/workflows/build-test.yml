@@ -240,10 +240,7 @@ jobs:
       - name: Build with Maven
         working-directory: .
         run: |
-          ls -la ./gremlin-go
-          touch ./gremlin-go/.glv
-          chmod +x ./gremlin-go/run.sh
-          ls -la ./gremlin-go
+          touch gremlin-go/.glv
           mvn verify -pl :gremlin-go
       - name: Upload to Codecov
         uses: codecov/codecov-action@v3
