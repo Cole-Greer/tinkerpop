@@ -25,6 +25,10 @@ limitations under the License.
     </parent>
     <artifactId>gremlin-server</artifactId>
     <name>Apache TinkerPop :: Gremlin Server</name>
+    <properties>
+        <maven.exec.skip>false</maven.exec.skip> <!-- default -->
+        <skipImageBuild>${maven.exec.skip}</skipImageBuild>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
@@ -159,11 +163,12 @@ limitations under the License.
                 <executions>
                     <execution>
                         <id>build-image</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
+                            <skip>${skipImageBuild}</skip>
                             <executable>docker</executable>
                             <arguments>
                                 <argument>build</argument>
