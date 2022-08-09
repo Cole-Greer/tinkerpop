@@ -108,7 +108,7 @@ class TestDriverRemoteConnection(object):
 
     def test_lambda_traversals(self, remote_connection):
         statics.load_statics(globals())
-        assert "remoteconnection[ws://localhost:45940/gremlin,gmodern]" == str(remote_connection)
+        assert "remoteconnection[ws://gremlin-server-test-python:45940/gremlin,gmodern]" == str(remote_connection)
         g = traversal().withRemote(remote_connection)
 
         assert 24.0 == g.withSack(1.0, lambda: ("x -> x + 1", "gremlin-groovy")).V().both().sack().sum().next()

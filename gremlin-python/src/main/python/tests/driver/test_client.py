@@ -32,7 +32,7 @@ from asyncio import TimeoutError
 
 __author__ = 'David M. Brown (davebshow@gmail.com)'
 
-test_no_auth_url = 'ws://localhost:45940/gremlin'
+test_no_auth_url = 'ws://gremlin-server-test-python:45940/gremlin'
 
 
 def test_connection(connection):

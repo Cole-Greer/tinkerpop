@@ -31,7 +31,7 @@ from gremlin_python.process.traversal import P
 from gremlin_python.process.traversal import Binding, Bindings
 from gremlin_python.process.graph_traversal import __
 
-gremlin_server_url = 'ws://localhost:{}/gremlin'
+gremlin_server_url = 'ws://gremlin-server-test-python:{}/gremlin'
 anonymous_url = gremlin_server_url.format(45940)
 
 

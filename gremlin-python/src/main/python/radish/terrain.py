@@ -95,4 +95,4 @@ def __create_remote(server_graph_name):
     else:
         raise ValueError('serializer not found - ' + world.config.user_data["serializer"])
 
-    return DriverRemoteConnection('ws://localhost:45940/gremlin', server_graph_name, message_serializer=s)
+    return DriverRemoteConnection('ws://gremlin-server-test-python:45940/gremlin', server_graph_name, message_serializer=s)

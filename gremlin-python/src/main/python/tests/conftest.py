@@ -36,9 +36,9 @@ from gremlin_python.driver.serializer import (
     GraphBinarySerializersV1)
 from gremlin_python.driver.aiohttp.transport import AiohttpTransport
 
-gremlin_server_url = 'ws://localhost:{}/gremlin'
+gremlin_server_url = 'ws://gremlin-server-test-python:{}/gremlin'
 anonymous_url = gremlin_server_url.format(45940)
-basic_url = 'wss://localhost:{}/gremlin'.format(45941)
+basic_url = 'wss://gremlin-server-test-python:{}/gremlin'.format(45941)
 kerberos_url = gremlin_server_url.format(45942)
 kerberized_service = 'test-service@{}'.format(socket.gethostname())
 verbose_logging = False
