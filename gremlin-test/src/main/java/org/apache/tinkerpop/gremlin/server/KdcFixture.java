@@ -163,6 +163,11 @@ public class KdcFixture {
         kdcServer.getKrbClient().storeTicket(tgt2, ticketCacheFile2);
 
         kdcServer.createPrincipal(userPrincipal, userPassword);
+        System.out.println("serverConfig: " + kdcServer.getKdcConfig());
+        System.out.println("clientPrincipal: " + clientPrincipal);
+        System.out.println("serverPrincipal: " + serverPrincipal);
+        System.out.println("userPrincipal: " + userPrincipal);
+        System.out.println("userPassword: " + userPassword);
     }
 
     public void close() {
@@ -209,6 +214,7 @@ public class KdcFixture {
         // The KDC in docker/gremlin-server.sh needs to be exposed to both the container and the host
         final KdcFixture kdcFixture = new KdcFixture(projectBaseDir, "0.0.0.0");
         kdcFixture.setUp();
+        System.out.println(kdcFixture.serviceKeytabFile.getAbsolutePath());
         logger.info("KDC started with configuration {}/target/kdc/krb5.conf", projectBaseDir);
         while (true) {
             Thread.sleep(1000);

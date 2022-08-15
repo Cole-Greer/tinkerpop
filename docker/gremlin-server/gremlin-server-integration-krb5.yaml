@@ -64,5 +64,5 @@ writeBufferHighWaterMark: 65536
 authentication: {
   authenticator: org.apache.tinkerpop.gremlin.server.auth.Krb5Authenticator,
   config: {
-    principal: test-service/gremlin-server-test@TEST.COM,
+    principal: test-service/gremlin-server-test-python@TEST.COM,
     keytab: /opt/gremlin-server/target/kdc/test-service.keytab}}
