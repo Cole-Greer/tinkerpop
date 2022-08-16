@@ -22,6 +22,7 @@ services:
   gremlin-server-test-python:
     container_name: gremlin-server-test-python
     image: tinkerpop:gremlin-server-test-${GREMLIN_SERVER}
+    hostname: gremlin-server-test
     build:
       context: ../
       dockerfile: docker/gremlin-test-server/Dockerfile

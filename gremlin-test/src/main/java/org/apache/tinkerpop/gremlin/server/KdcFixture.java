@@ -98,6 +98,7 @@ public class KdcFixture {
         } catch (Exception e) {
             logger.error("Hostname not found: " + e.getMessage());
         }
+        System.out.println("Hostname: " + hostname);
         return hostname;
     }
 
