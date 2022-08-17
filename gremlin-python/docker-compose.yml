@@ -53,6 +53,8 @@ services:
       bash -c "apt-get update && apt-get install dos2unix && dos2unix ./gremlin-test-server/wait-for-server.sh
       && ./gremlin-test-server/wait-for-server.sh gremlin-server-test-python 45940 300
       && apt-get -y install libkrb5-dev krb5-user
+      && export KRB5_CONFIG=./krb5.conf
+      && echo 'password' | kinit stephen
       && pip install wheel radish-bdd PyHamcrest aenum isodate kerberos six
       && python3 ./setup.py install
       && python3 ./setup.py build
