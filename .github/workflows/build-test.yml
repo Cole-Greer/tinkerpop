@@ -89,7 +89,7 @@ jobs:
         - name: Generate Gremlin Server Base
           working-directory: .
           run: |
-            mvn clean install -pl gremlin-server -DskipTests -DskipIntegrationTests=true -Dci -am
+            mvn clean install -pl gremlin-server,gremlin-test -DskipTests -DskipIntegrationTests=true -Dci -am
         - name: Save Docker image
           working-directory: ./gremlin-server
           run: docker save --output gremlin-server.tar tinkerpop/gremlin-server
@@ -214,7 +214,7 @@ jobs:
   python:
     name: python
     timeout-minutes: 20
-    needs: smoke
+    needs: cache-gremlin-server-docker-image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
