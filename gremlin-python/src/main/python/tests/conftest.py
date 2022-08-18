@@ -18,6 +18,7 @@
 #
 
 import concurrent.futures
+import os
 import ssl
 import pytest
 import socket
@@ -36,11 +37,13 @@ from gremlin_python.driver.serializer import (
     GraphBinarySerializersV1)
 from gremlin_python.driver.aiohttp.transport import AiohttpTransport
 
-gremlin_server_url = 'ws://gremlin-server-test-python:{}/gremlin'
+gremlin_server_url = (os.environ['GREMLIN_SERVER_URL']) if 'GREMLIN_SERVER_URL' in os.environ else 'ws://localhost:{}/gremlin'
+gremlin_basic_auth_url = (os.environ['GREMLIN_SERVER_BASIC_AUTH_URL']) if 'GREMLIN_SERVER_BASIC_AUTH_URL' in os.environ else 'wss://localhost:{}/gremlin'
+kerberos_hostname = (os.environ['KRB_HOSTNAME']) if 'KRB_HOSTNAME' in os.environ else socket.gethostname()
 anonymous_url = gremlin_server_url.format(45940)
-basic_url = 'wss://gremlin-server-test-python:{}/gremlin'.format(45941)
+basic_url = gremlin_basic_auth_url.format(45941)
 kerberos_url = gremlin_server_url.format(45942)
-kerberized_service = 'test-service@{}'.format("gremlin-server-test")
+kerberized_service = 'test-service@{}'.format(kerberos_hostname)
 verbose_logging = False
 
 logging.basicConfig(format='%(asctime)s [%(levelname)8s] [%(filename)15s:%(lineno)d - %(funcName)10s()] - %(message)s',

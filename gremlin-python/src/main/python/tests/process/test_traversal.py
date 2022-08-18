@@ -31,7 +31,7 @@ from gremlin_python.process.traversal import P
 from gremlin_python.process.traversal import Binding, Bindings
 from gremlin_python.process.graph_traversal import __
 
-gremlin_server_url = 'ws://gremlin-server-test-python:{}/gremlin'
+gremlin_server_url = (os.environ['GREMLIN_SERVER_URL']) if 'GREMLIN_SERVER_URL' in os.environ else 'ws://localhost:{}/gremlin'
 anonymous_url = gremlin_server_url.format(45940)
 
 
