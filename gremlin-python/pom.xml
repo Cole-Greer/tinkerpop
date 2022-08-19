@@ -83,27 +83,12 @@ limitations under the License.
             </activation>
             <build>
                 <plugins>
-                    <!-- need to create python-reports directory at this point or else pytest can't write the report to it -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
-                            <execution>
-                                <id>create-python-reports-directory</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <mkdir dir="${project.build.directory}/python-reports"/>
-                                        <mkdir dir="${project.build.directory}/python-packaged/env"/>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <!-- copy files in python directory to target/py and run virtual env to sandbox python.
-                                 there is no need to "activate" the virtualenv because all calls to python occur
-                                 directly from bin/ -->
+                            <!-- copy source files in python directory to target/, to keep testing separate from packaging.
+                            We use target/python3 for testing and target/python-packaged for distribution tasks.-->
                             <execution>
                                 <id>setup-env</id>
                                 <phase>process-resources</phase>
@@ -112,10 +97,8 @@ limitations under the License.
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <!-- seems like we need a few different copies of the same source. all the
-                                             different python stuff doesn't seem to want to share. we use
-                                             /python3 for basic tests and stuff and /python-packaged for distribution
-                                             tasks. -->
+                                        <!-- pytest will create python-reports inside target/python3/python-reports
+                                        as docker compose cannot access outside its working directory -->
                                         <copy todir="${project.build.directory}/python3">
                                             <fileset dir="src/main/python"/>
                                         </copy>
