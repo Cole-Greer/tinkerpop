@@ -36,11 +36,11 @@ services:
     volumes:
       - ${HOME}/.groovy:/root/.groovy
       - ${HOME}/.m2:/root/.m2
-      - ${ABS_PROJECT_HOME}/../gremlin-test/target:/opt/gremlin-test
+      - ${ABS_PROJECT_HOME}/gremlin-test/target:/opt/gremlin-test
 
   gremlin-python-integration-tests:
     container_name: gremlin-python-integration-tests
-    image: python:latest
+    image: python:3.8
     volumes:
       - ${BUILD_DIR:-./src/main/python}:/python_app
       - ../gremlin-test/features:/python_app/gremlin-test/features
@@ -71,7 +71,7 @@ services:
 
   gremlin-python-package:
     container_name: gremlin-python-package
-    image: python:latest
+    image: python:3.8
     volumes:
       - ${PACKAGE_DIR:-./src/main/python}:/python_package
     working_dir: /python_package

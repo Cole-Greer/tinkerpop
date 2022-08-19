@@ -35,7 +35,7 @@ services:
     volumes:
       - ${HOME}/.groovy:/root/.groovy
       - ${HOME}/.m2:/root/.m2
-      - ${ABS_PROJECT_HOME}/../gremlin-test/target:/opt/gremlin-test
+      - ${ABS_PROJECT_HOME}/gremlin-test/target:/opt/gremlin-test
 
   gremlin-go-integration-tests:
     container_name: gremlin-go-integration-tests
