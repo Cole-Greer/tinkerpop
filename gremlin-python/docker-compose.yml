@@ -59,6 +59,7 @@ services:
       && ./gremlin-test-server/wait-for-server.sh gremlin-server-test-python 45940 300
       && apt-get -y install libkrb5-dev krb5-user
       && echo 'password' | kinit stephen
+      && klist
       && pip install wheel radish-bdd PyHamcrest aenum isodate kerberos six
       && python3 ./setup.py build
       && python3 ./setup.py test
