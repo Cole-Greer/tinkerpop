@@ -148,7 +148,8 @@ limitations under the License.
                                             <env key="PYTHONPATH" value=""/>
                                             <env key="GREMLIN_SERVER" value="${project.version}"/>
                                             <env key="ABS_PROJECT_HOME" value="${project.basedir}/../"/>
-                                            <env key="KRB5_CONFIG" value="${project.basedir}/../docker/gremlin-test-server/krb5.conf"/>
+<!--                                            <env key="KRB5_CONFIG" value="${project.basedir}/../docker/gremlin-test-server/krb5.conf"/>-->
+<!--                                            <env key="KRB_HOSTNAME" value="gremlin-server-test"/>-->
                                             <env key="BUILD_DIR" value="${project.build.directory}/python3"/>
                                             <arg line="up --build --abort-on-container-exit gremlin-server-test-python gremlin-python-integration-tests"/>
                                         </exec>

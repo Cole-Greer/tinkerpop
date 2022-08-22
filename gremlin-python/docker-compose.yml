@@ -53,6 +53,7 @@ services:
       - GREMLIN_SERVER_BASIC_AUTH_URL=wss://gremlin-server-test-python:{}/gremlin
       - KRB_HOSTNAME=gremlin-server-test
       - VERSION=${VERSION}
+      - PYTHONUNBUFFERED=1
     working_dir: /python_app
     command: >
       bash -c "apt-get update && apt-get install dos2unix && dos2unix ./gremlin-test-server/wait-for-server.sh
