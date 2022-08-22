@@ -51,7 +51,7 @@ services:
       - KRB5_CONFIG=./gremlin-test-server/krb5.conf
       - GREMLIN_SERVER_URL=ws://gremlin-server-test-python:{}/gremlin
       - GREMLIN_SERVER_BASIC_AUTH_URL=wss://gremlin-server-test-python:{}/gremlin
-      - KRB_HOSTNAME=gremlin-server-test
+      - KRB_HOSTNAME=${KRB_HOSTNAME:-gremlin-server-test}
       - VERSION=${VERSION}
       - PYTHONUNBUFFERED=1
     working_dir: /python_app

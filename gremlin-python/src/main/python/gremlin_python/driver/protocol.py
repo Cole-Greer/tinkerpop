@@ -149,8 +149,14 @@ class GremlinServerWSProtocol(AbstractBaseProtocol):
                 print(os.environ['KRB5_CONFIG'])
                 _, kerberos_context = kerberos.authGSSClientInit(
                     self._kerberized_service, gssflags=kerberos.GSS_C_MUTUAL_FLAG)
+                print("context created")
+                print(kerberos_context)
                 kerberos.authGSSClientStep(kerberos_context, '')
+                print("context authorizing")
+                print(kerberos_context)
                 auth = kerberos.authGSSClientResponse(kerberos_context)
+                print("context authorized")
+                print(auth)
                 self._kerberos_context = kerberos_context
             except kerberos.KrbError as e:
                 raise ConfigurationError(
