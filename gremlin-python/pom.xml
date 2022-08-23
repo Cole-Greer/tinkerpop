@@ -151,7 +151,7 @@ limitations under the License.
 <!--                                            <env key="KRB5_CONFIG" value="${project.basedir}/../docker/gremlin-test-server/krb5.conf"/>-->
 <!--                                            <env key="KRB_HOSTNAME" value="gremlin-server-test"/>-->
                                             <env key="BUILD_DIR" value="${project.build.directory}/python3"/>
-                                            <arg line="up --build --abort-on-container-exit gremlin-server-test-python gremlin-python-integration-tests"/>
+                                            <arg line="up --abort-on-container-exit gremlin-server-test-python gremlin-python-integration-tests"/>
                                         </exec>
                                         <exec executable="docker-compose" failonerror="true">
                                             <env key="PYTHONPATH" value=""/>

@@ -20,6 +20,7 @@ import logging
 import abc
 import base64
 import os
+import socket
 import struct
 
 # import kerberos    Optional dependency imported in relevant codeblock
@@ -148,7 +149,7 @@ class GremlinServerWSProtocol(AbstractBaseProtocol):
                 print(self._kerberized_service)
                 print(os.environ['KRB5_CONFIG'])
                 _, kerberos_context = kerberos.authGSSClientInit(
-                    self._kerberized_service, gssflags=kerberos.GSS_C_MUTUAL_FLAG)
+                    self._kerberized_service, principal='stephen@TEST.COM', gssflags=kerberos.GSS_C_MUTUAL_FLAG)
                 print("context created")
                 print(kerberos_context)
                 kerberos.authGSSClientStep(kerberos_context, '')
