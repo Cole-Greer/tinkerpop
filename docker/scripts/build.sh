@@ -69,7 +69,7 @@ fi
 
 # omitting gremlin-go for now to avoid docker in docker as it builds via docker compose
 # progress to restructure and add gremlin-go back will be tracked here https://issues.apache.org/jira/browse/TINKERPOP-2737
-touch {gremlin-dotnet,gremlin-dotnet/src,gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
+touch gremlin-python/.glv
 
 # use a custom maven settings.xml
 if [ -r "settings.xml" ]; then
