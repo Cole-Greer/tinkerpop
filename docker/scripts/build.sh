@@ -49,7 +49,7 @@ while [ ! -z "$1" ]; do
   esac
 done
 
-TINKERPOP_BUILD_OPTIONS=""
+TINKERPOP_BUILD_OPTIONS="-DskipImageBuild" # Always skip building images to prevent Docker in Docker.
 
 [ -z "${RUN_TESTS}" ] && TINKERPOP_BUILD_OPTIONS="${TINKERPOP_BUILD_OPTIONS} -DskipTests"
 [ -z "${RUN_INTEGRATION_TESTS}" ] || TINKERPOP_BUILD_OPTIONS="${TINKERPOP_BUILD_OPTIONS} -DskipIntegrationTests=false"
@@ -67,10 +67,6 @@ if [ -d "${TINKERMEM_PATH}" ]; then
   cd ${TINKERMEM_PATH}
 fi
 
-# omitting gremlin-go for now to avoid docker in docker as it builds via docker compose
-# progress to restructure and add gremlin-go back will be tracked here https://issues.apache.org/jira/browse/TINKERPOP-2737
-touch gremlin-python/.glv
-
 # use a custom maven settings.xml
 if [ -r "settings.xml" ]; then
   echo "Copying settings.xml"
@@ -79,7 +75,8 @@ if [ -r "settings.xml" ]; then
 fi
 
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-mvn clean install process-resources --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
+#mvn clean install process-resources --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
+mvn clean install -pl gremlin-driver,gremlin-groovy --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
 [ -z "${BUILD_JAVA_DOCS}" ] || mvn process-resources -Djavadoc || exit 1
 
 if [ ! -z "${BUILD_USER_DOCS}" ]; then

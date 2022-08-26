@@ -40,7 +40,7 @@ esac
 
 pushd ${PROJECT_HOME} > /dev/null
 
-HADOOP_VERSION=$(cat pom.xml | grep -o '<hadoop.version>[^<]*' | head -n1 | cut -d '>' -f2)
+HADOOP_VERSION=$(cat pom.xml | grep -o '<hadoop.version>[^<]*' | head -n2 | cut -d '>' -f2)
 
 docker/build-containers.sh -h "${HADOOP_VERSION}"
 
@@ -51,6 +51,27 @@ EOF
 
 docker build -t tinkerpop:${BUILD_TAG} .
 docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" tinkerpop:${BUILD_TAG}
+
+PROJECT_VERSION=$(grep tinkerpop -A2 pom.xml | grep -Po '(?<=<version>)([0-9]+\.?){3}(-SNAPSHOT)?(?=<)')
+echo ${PROJECT_VERSION}
+export GREMLIN_SERVER=${1:-$GREMLIN_SERVER_VERSION}
+echo "GREMLIN_SERVER ${GREMLIN_SERVER}"
+
+# build base server which is required by the docker-compose.
+docker build -f ./Dockerfile --build-arg GREMLIN_SERVER_DIR=target/apache-tinkerpop-gremlin-server-${GREMLIN_SERVER}-standalone -t tinkerpop/gremlin-server:${GREMLIN_SERVER} .
+#test glvs
+#touch {gremlin-go,gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
+touch gremlin-go/.glv
+
+export ABS_PROJECT_HOME=${PROJECT_HOME}
+echo "ABS_PROJECT_HOME ${ABS_PROJECT_HOME}"
+
+if [ -z "${RUN_TESTS}" ]; then
+pushd ${PROJECT_HOME}/gremlin-go > /dev/null
+docker-compose up --build --exit-code-from gremlin-go-integration-tests
+docker-compose down
+popd > /dev/null
+fi
 
 status=$?
 popd > /dev/null
