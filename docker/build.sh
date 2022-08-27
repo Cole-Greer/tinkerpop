@@ -57,7 +57,11 @@ export GREMLIN_SERVER=${PROJECT_VERSION}
 echo "GREMLIN_SERVER ${GREMLIN_SERVER}"
 
 # build base server which is required by the docker-compose.
+pushd ${PROJECT_HOME}/gremlin-server > /dev/null
+echo pwd
 docker build -f ./Dockerfile --build-arg GREMLIN_SERVER_DIR=target/apache-tinkerpop-gremlin-server-${GREMLIN_SERVER}-standalone -t tinkerpop/gremlin-server:${GREMLIN_SERVER} .
+popd > /dev/null
+
 #test glvs
 #touch {gremlin-go,gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
 touch gremlin-go/.glv
