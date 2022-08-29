@@ -49,16 +49,16 @@ cat >> Dockerfile <<EOF
 CMD ["sh", "-c", "docker/scripts/build.sh $@"]
 EOF
 
-docker build -t tinkerpop:${BUILD_TAG} .
-docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" tinkerpop:${BUILD_TAG}
-
 PROJECT_VERSION=$(grep tinkerpop -A2 pom.xml | grep -Po '(?<=<version>)([0-9]+\.?){3}(-SNAPSHOT)?(?=<)')
 export GREMLIN_SERVER=${PROJECT_VERSION}
 echo "GREMLIN_SERVER ${GREMLIN_SERVER}"
 
+docker build -t tinkerpop:${BUILD_TAG} .
+docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" --mount type=bind,src=$pwd/gremlin-server/target/apache-tinkerpop-gremlin-console-${GREMLIN_SERVER}-standalone,dst=/usr/src/tinkerpop/gremlin-server/target/apache-tinkerpop-gremlin-console-${GREMLIN_SERVER}-standalone tinkerpop:${BUILD_TAG}
+
 # build base server which is required by the docker-compose.
 pushd ${PROJECT_HOME}/gremlin-server > /dev/null
-echo pwd
+echo $pwd
 docker build -f ./Dockerfile --build-arg GREMLIN_SERVER_DIR=target/apache-tinkerpop-gremlin-server-${GREMLIN_SERVER}-standalone -t tinkerpop/gremlin-server:${GREMLIN_SERVER} .
 popd > /dev/null
 
