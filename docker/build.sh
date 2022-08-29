@@ -63,14 +63,29 @@ docker build -f ./Dockerfile --build-arg GREMLIN_SERVER_DIR=target/apache-tinker
 popd > /dev/null
 
 #test glvs
-#touch {gremlin-go,gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
-touch gremlin-go/.glv
+touch {gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
+#touch gremlin-go/.glv
 
 export ABS_PROJECT_HOME=${PROJECT_HOME}
 echo "ABS_PROJECT_HOME ${ABS_PROJECT_HOME}"
 
 if [ -z "${RUN_TESTS}" ]; then
-pushd ${PROJECT_HOME}/gremlin-go > /dev/null
+#pushd ${PROJECT_HOME}/gremlin-go > /dev/null
+#docker-compose up --build --exit-code-from gremlin-go-integration-tests
+#docker-compose down
+#popd > /dev/null
+
+pushd ${PROJECT_HOME}/gremlin-dotnet/test > /dev/null
+docker-compose up --build --exit-code-from gremlin-dotnet-integration-tests
+docker-compose down
+popd > /dev/null
+
+pushd ${PROJECT_HOME}/gremlin-python > /dev/null
+docker-compose up --build --exit-code-from gremlin-go-integration-tests
+docker-compose down
+popd > /dev/null
+
+pushd ${PROJECT_HOME}/gremlin-javascript > /dev/null
 docker-compose up --build --exit-code-from gremlin-go-integration-tests
 docker-compose down
 popd > /dev/null
