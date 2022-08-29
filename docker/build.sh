@@ -54,7 +54,7 @@ export GREMLIN_SERVER=${PROJECT_VERSION}
 echo "GREMLIN_SERVER ${GREMLIN_SERVER}"
 
 docker build -t tinkerpop:${BUILD_TAG} .
-docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" --mount type=bind,src=${PROJECT_HOME}/gremlin-server/,dst=/usr/src/tinkerpop/gremlin-server/ tinkerpop:${BUILD_TAG}
+docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" --mount type=bind,src=$(pwd)/gremlin-server/,dst=/usr/src/tinkerpop/gremlin-server/ tinkerpop:${BUILD_TAG}
 
 # build base server which is required by the docker-compose.
 pushd ${PROJECT_HOME}/gremlin-server > /dev/null
