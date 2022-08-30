@@ -69,7 +69,7 @@ touch {gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
 export ABS_PROJECT_HOME=${PROJECT_HOME}
 echo "ABS_PROJECT_HOME ${ABS_PROJECT_HOME}"
 
-if [ -z "${RUN_TESTS}" ]; then
+#if [ -z "${RUN_TESTS}" ]; then
 #pushd ${PROJECT_HOME}/gremlin-go > /dev/null
 #docker-compose up --build --exit-code-from gremlin-go-integration-tests
 #docker-compose down
@@ -81,15 +81,19 @@ docker-compose down
 popd > /dev/null
 
 pushd ${PROJECT_HOME}/gremlin-python > /dev/null
-docker-compose up --build --exit-code-from gremlin-go-integration-tests
+export BUILD_DIR=$(pwd)/target/python3/
+echo "BUILD_DIR ${BUILD_DIR}"
+mkdir $BUILD_DIR
+cp -r ./src/main/python $BUILD_DIR
+docker-compose up --build --abort-on-container-exit gremlin-server-test-python gremlin-python-integration-tests
 docker-compose down
 popd > /dev/null
 
 pushd ${PROJECT_HOME}/gremlin-javascript > /dev/null
-docker-compose up --build --exit-code-from gremlin-go-integration-tests
+docker-compose up --build --exit-code-from gremlin-js-integration-tests
 docker-compose down
 popd > /dev/null
-fi
+#fi
 
 status=$?
 popd > /dev/null
