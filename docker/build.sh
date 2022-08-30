@@ -39,6 +39,8 @@ case "$1" in
 esac
 
 pushd ${PROJECT_HOME} > /dev/null
+echo "PWD = "
+echo $(pwd)
 
 HADOOP_VERSION=$(cat pom.xml | grep -o '<hadoop.version>[^<]*' | head -n2 | cut -d '>' -f2)
 
@@ -58,7 +60,8 @@ docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/
 
 # build base server which is required by the docker-compose.
 pushd ${PROJECT_HOME}/gremlin-server > /dev/null
-echo $pwd
+echo "PWD = "
+echo $(pwd)
 docker build -f ./Dockerfile --build-arg GREMLIN_SERVER_DIR=target/apache-tinkerpop-gremlin-server-${GREMLIN_SERVER}-standalone -t tinkerpop/gremlin-server:${GREMLIN_SERVER} .
 popd > /dev/null
 
@@ -76,20 +79,26 @@ echo "ABS_PROJECT_HOME ${ABS_PROJECT_HOME}"
 #popd > /dev/null
 
 pushd ${PROJECT_HOME}/gremlin-dotnet/test > /dev/null
+echo "PWD = "
+echo $(pwd)
 docker-compose up --build --exit-code-from gremlin-dotnet-integration-tests
 docker-compose down
 popd > /dev/null
 
 pushd ${PROJECT_HOME}/gremlin-python > /dev/null
+echo "PWD = "
+echo $(pwd)
 export BUILD_DIR=$(pwd)/target/python3/
 echo "BUILD_DIR ${BUILD_DIR}"
-mkdir $BUILD_DIR
+mkdir -p $BUILD_DIR
 cp -r ./src/main/python $BUILD_DIR
 docker-compose up --build --abort-on-container-exit gremlin-server-test-python gremlin-python-integration-tests
 docker-compose down
 popd > /dev/null
 
-pushd ${PROJECT_HOME}/gremlin-javascript > /dev/null
+pushd ${PROJECT_HOME}/gremlin-javascript/src/main/javascript > /dev/null
+echo "PWD = "
+echo $(pwd)
 docker-compose up --build --exit-code-from gremlin-js-integration-tests
 docker-compose down
 popd > /dev/null
