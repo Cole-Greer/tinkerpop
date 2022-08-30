@@ -41,6 +41,8 @@ esac
 pushd ${PROJECT_HOME} > /dev/null
 echo "PWD = "
 echo $(pwd)
+export ABS_PROJECT_HOME=$(pwd) # absolute path required by some Docker variables.
+echo "ABS_PROJECT_HOME ${ABS_PROJECT_HOME}"
 
 HADOOP_VERSION=$(cat pom.xml | grep -o '<hadoop.version>[^<]*' | head -n2 | cut -d '>' -f2)
 
@@ -56,10 +58,10 @@ export GREMLIN_SERVER=${PROJECT_VERSION}
 echo "GREMLIN_SERVER ${GREMLIN_SERVER}"
 
 docker build -t tinkerpop:${BUILD_TAG} .
-docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" --mount type=bind,src=$(pwd)/gremlin-server/,dst=/usr/src/tinkerpop/gremlin-server/ --mount type=bind,src=$(pwd)/gremlin-test/,dst=/usr/src/tinkerpop/gremlin-test/ tinkerpop:${BUILD_TAG}
+docker run -p 80:80 ${TINKERPOP_DOCKER_OPTS} ${REMOVE_CONTAINER} -e "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" --mount type=bind,src=$(pwd)/gremlin-server/,dst=/usr/src/tinkerpop/gremlin-server/ --mount type=bind,src=$(pwd)/gremlin-test/,dst=/usr/src/tinkerpop/gremlin-test/ --mount type=bind,src=$(pwd)/gremlin-console/,dst=/usr/src/tinkerpop/gremlin-console/ tinkerpop:${BUILD_TAG}
 
 # build base server which is required by the docker-compose.
-pushd ${PROJECT_HOME}/gremlin-server > /dev/null
+pushd ${ABS_PROJECT_HOME}/gremlin-server > /dev/null
 echo "PWD = "
 echo $(pwd)
 docker build -f ./Dockerfile --build-arg GREMLIN_SERVER_DIR=target/apache-tinkerpop-gremlin-server-${GREMLIN_SERVER}-standalone -t tinkerpop/gremlin-server:${GREMLIN_SERVER} .
@@ -69,24 +71,21 @@ popd > /dev/null
 touch {gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
 #touch .glv
 
-export ABS_PROJECT_HOME=${PROJECT_HOME}
-echo "ABS_PROJECT_HOME ${ABS_PROJECT_HOME}"
-
 #if [ -z "${RUN_TESTS}" ]; then
-#pushd ${PROJECT_HOME}/gremlin-go > /dev/null
+#pushd ${ABS_PROJECT_HOME}/gremlin-go > /dev/null
 #touch .glv
 #docker-compose up --build --exit-code-from gremlin-go-integration-tests
 #docker-compose down
 #popd > /dev/null
 
-pushd ${PROJECT_HOME}/gremlin-dotnet/test > /dev/null
+pushd ${ABS_PROJECT_HOME}/gremlin-dotnet/test > /dev/null
 echo "PWD = "
 echo $(pwd)
 docker-compose up --build --exit-code-from gremlin-dotnet-integration-tests
 docker-compose down
 popd > /dev/null
 
-pushd ${PROJECT_HOME}/gremlin-python > /dev/null
+pushd ${ABS_PROJECT_HOME}/gremlin-python > /dev/null
 echo "PWD = "
 echo $(pwd)
 export BUILD_DIR=$(pwd)/target/python3/
@@ -97,20 +96,20 @@ docker-compose up --build --abort-on-container-exit gremlin-server-test-python g
 docker-compose down
 popd > /dev/null
 
-pushd ${PROJECT_HOME}/gremlin-javascript/src/main/javascript/gremlin-javascript > /dev/null
+pushd ${ABS_PROJECT_HOME}/gremlin-javascript/src/main/javascript/gremlin-javascript > /dev/null
 echo "PWD = "
 echo $(pwd)
 docker-compose up --build --exit-code-from gremlin-js-integration-tests
 docker-compose down
 popd > /dev/null
 
-pushd ${PROJECT_HOME}/gremlin-console > /dev/null
+pushd ${ABS_PROJECT_HOME}/gremlin-console > /dev/null
 echo "PWD = "
 echo $(pwd)
 docker build -t gremlin-console-test:py3.8jre11 ./src/test/python/docker
 docker run --rm \
-           --mount type=bind,src=${project.basedir}/src/test/python,dst=/console_app \
-           --mount type=bind,src=${project.basedir}/target/apache-tinkerpop-gremlin-console-${project.version}-standalone,dst=/console_app/gremlin-console \
+           --mount type=bind,src=$(pwd)/src/test/python,dst=/console_app \
+           --mount type=bind,src=$(pwd)/target/apache-tinkerpop-gremlin-console-${PROJECT_VERSION}-standalone,dst=/console_app/gremlin-console \
            gremlin-console-test:py3.8jre11
 popd > /dev/null
 #fi

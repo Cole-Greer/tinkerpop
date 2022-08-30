@@ -77,7 +77,7 @@ fi
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 #mvn clean install process-resources --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
 #mvn clean install -pl gremlin-driver --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
-mvn clean install -pl gremlin-server --batch-mode -DskipTests -DskipIntegrationTests=true -DskipImageBuild || exit 1
+mvn clean install -pl gremlin-server,gremlin-test,gremlin-console --batch-mode -DskipTests -DskipIntegrationTests=true -DskipImageBuild || exit 1
 [ -z "${BUILD_JAVA_DOCS}" ] || mvn process-resources -Djavadoc || exit 1
 
 if [ ! -z "${BUILD_USER_DOCS}" ]; then
