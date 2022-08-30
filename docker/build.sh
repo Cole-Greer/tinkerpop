@@ -88,10 +88,10 @@ popd > /dev/null
 pushd ${ABS_PROJECT_HOME}/gremlin-python > /dev/null
 echo "PWD = "
 echo $(pwd)
-export BUILD_DIR=$(pwd)/target/python3/
-echo "BUILD_DIR ${BUILD_DIR}"
-mkdir -p $BUILD_DIR
-cp -r ./src/main/python $BUILD_DIR
+#export BUILD_DIR=$(pwd)/target/python3/
+#echo "BUILD_DIR ${BUILD_DIR}"
+#mkdir -p $BUILD_DIR
+#cp -r ./src/main/python ${BUILD_DIR}
 docker-compose up --build --abort-on-container-exit gremlin-server-test-python gremlin-python-integration-tests
 docker-compose down
 popd > /dev/null
