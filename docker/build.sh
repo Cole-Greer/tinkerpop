@@ -78,13 +78,13 @@ touch {gremlin-dotnet/test,gremlin-python,gremlin-javascript}/.glv
 #docker-compose down
 #popd > /dev/null
 
-pushd ${ABS_PROJECT_HOME}/gremlin-dotnet/test > /dev/null
-echo "PWD = "
-echo $(pwd)
-docker-compose up --build --exit-code-from gremlin-dotnet-integration-tests
-docker-compose down
-popd > /dev/null
-
+#pushd ${ABS_PROJECT_HOME}/gremlin-dotnet/test > /dev/null
+#echo "PWD = "
+#echo $(pwd)
+#docker-compose up --build --exit-code-from gremlin-dotnet-integration-tests
+#docker-compose down
+#popd > /dev/null
+#
 pushd ${ABS_PROJECT_HOME}/gremlin-python > /dev/null
 echo "PWD = "
 echo $(pwd)
@@ -95,23 +95,23 @@ echo $(pwd)
 docker-compose up --build --abort-on-container-exit gremlin-server-test-python gremlin-python-integration-tests
 docker-compose down
 popd > /dev/null
-
-pushd ${ABS_PROJECT_HOME}/gremlin-javascript/src/main/javascript/gremlin-javascript > /dev/null
-echo "PWD = "
-echo $(pwd)
-docker-compose up --build --exit-code-from gremlin-js-integration-tests
-docker-compose down
-popd > /dev/null
-
-pushd ${ABS_PROJECT_HOME}/gremlin-console > /dev/null
-echo "PWD = "
-echo $(pwd)
-docker build -t gremlin-console-test:py3.8jre11 ./src/test/python/docker
-docker run --rm \
-           --mount type=bind,src=$(pwd)/src/test/python,dst=/console_app \
-           --mount type=bind,src=$(pwd)/target/apache-tinkerpop-gremlin-console-${PROJECT_VERSION}-standalone,dst=/console_app/gremlin-console \
-           gremlin-console-test:py3.8jre11
-popd > /dev/null
+#
+#pushd ${ABS_PROJECT_HOME}/gremlin-javascript/src/main/javascript/gremlin-javascript > /dev/null
+#echo "PWD = "
+#echo $(pwd)
+#docker-compose up --build --exit-code-from gremlin-js-integration-tests
+#docker-compose down
+#popd > /dev/null
+#
+#pushd ${ABS_PROJECT_HOME}/gremlin-console > /dev/null
+#echo "PWD = "
+#echo $(pwd)
+#docker build -t gremlin-console-test:py3.8jre11 ./src/test/python/docker
+#docker run --rm \
+#           --mount type=bind,src=$(pwd)/src/test/python,dst=/console_app \
+#           --mount type=bind,src=$(pwd)/target/apache-tinkerpop-gremlin-console-${PROJECT_VERSION}-standalone,dst=/console_app/gremlin-console \
+#           gremlin-console-test:py3.8jre11
+#popd > /dev/null
 #fi
 
 status=$?
