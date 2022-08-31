@@ -176,7 +176,10 @@ The site will be generated to the `target/site/home` directory.
 [[python-environment]]
 === Python Environment
 
-As of TinkerPop 3.2.2, the build optionally requires link:https://www.python.org/[Python] to build the `gremlin-python`
+As of TinkerPop 3.5.5, `gremlin-python` uses Docker for all tests inside of Maven, and Python installation is not required to
+run `gremlin-python` through Maven. Please make sure Docker is installed and running on your system.
+
+For TinkerPop 3.2.2 and up, the build optionally requires link:https://www.python.org/[Python] to build the `gremlin-python`
 module. If Python is not installed, TinkerPop will still build with Maven, but native Python tests and
 Java tests that require Python code will be skipped. Developers should also install link:https://pypi.python.org/pypi/pip[pip]
 and link:https://virtualenv.pypa.io/en/stable/[virtualenv] (version 15.0.2 - older versions may cause build failures).
@@ -186,9 +189,6 @@ therefore requires:
 
 [source,text]
 sudo apt install libkrb5-dev krb5-user
-
-As of TinkerPop 3.5.5, `gremlin-python` uses Docker for all tests inside of Maven, and Python installation will not be required to
-run `gremlin-python` through Maven. Please make sure Docker is installed and running on your system.
 
 Once the Python environment is established, the full building and testing of `gremlin-python` may commence. It
 can be done manually from the command line with:
@@ -217,12 +217,12 @@ See the <<release-environment,Release Environment>> section for more information
 [[dotnet-environment]]
 === DotNet Environment
 
-The build optionally requires link:https://dotnet.microsoft.com/download[.NET SDK] (>=6.0) to work with the
+As of TinkerPop 3.5.5, `gremlin-dotnet` uses Docker for running all test projects inside of Maven, and .NET SDK is not
+required to run `gremlin-dotnet` tests through Maven. Please make sure Docker is installed and running on your system.
+
+For previous TinkerPop versions, the build optionally requires link:https://dotnet.microsoft.com/download[.NET SDK] (>=6.0) to work with the
 `gremlin-dotnet` module. If .NET SDK is not installed, TinkerPop will still build with Maven, but .NET projects
 will be skipped.
-
-As of TinkerPop 3.5.5, `gremlin-dotnet` uses Docker for running all test projects inside of Maven, and .NET SDK will not
-be required to run `gremlin-dotnet` tests through Maven. Please make sure Docker is installed and running on your system.
 
 `gremlin-dotnet` can be built and tested from the command line with:
 
@@ -273,6 +273,8 @@ See the <<release-environment,Release Environment>> section for more information
 
 [[go-environment]]
 === Go Environment
+
+Go uses Docker for running all tests inside of Maven. Please make sure Docker is installed and running on your system.
 
 The build optionally requires link:https://go.dev/dl/[Go] (>=1.17) to work with the `gremlin-go` module. Creating an
 empty `.glv` file will enable running of tests inside of Maven. If `.glv` file does not exist, TinkerPop
