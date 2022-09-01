@@ -76,7 +76,7 @@ while [ ! -z "$1" ]; do
 done
 
 pushd ${PROJECT_HOME} > /dev/null
-ABS_PROJECT_HOME=$(pwd) # absolute path required by some Docker variables.
+export ABS_PROJECT_HOME=$(pwd) # absolute path required by some Docker variables.
 echo "ABS_PROJECT_HOME ${ABS_PROJECT_HOME}"
 
 HADOOP_VERSION=$(cat pom.xml | grep -o '<hadoop.version>[^<]*' | head -n2 | cut -d '>' -f2)
@@ -89,7 +89,7 @@ CMD ["sh", "-c", "docker/scripts/build.sh ${ARGS}"]
 EOF
 
 # GREMLIN_SERVER is the project version e.g. 3.5.5-SNAPSHOT
-GREMLIN_SERVER=$(grep tinkerpop -A2 pom.xml | grep -Po '(?<=<version>)([0-9]+\.?){3}(-SNAPSHOT)?(?=<)')
+export GREMLIN_SERVER=$(grep tinkerpop -A2 pom.xml | grep -Po '(?<=<version>)([0-9]+\.?){3}(-SNAPSHOT)?(?=<)')
 echo "GREMLIN_SERVER ${GREMLIN_SERVER}"
 
 docker build -t tinkerpop:${BUILD_TAG} .
