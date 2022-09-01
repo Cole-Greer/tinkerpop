@@ -20,6 +20,7 @@
 
 RUN_TESTS=
 RUN_INTEGRATION_TESTS=
+INCLUDE_NEO4J=
 BUILD_JAVA_DOCS=
 BUILD_USER_DOCS=
 MINIMAL_BUILD=
@@ -28,17 +29,19 @@ while [ ! -z "$1" ]; do
   case "$1" in
     -t | --tests ) RUN_TESTS=true; shift ;;
     -i | --integration-tests ) RUN_INTEGRATION_TESTS=true; shift ;;
+    -n | --neo4j ) INCLUDE_NEO4J=true; shift ;;
     -j | --java-docs ) BUILD_JAVA_DOCS=true; shift ;;
     -d | --docs ) BUILD_USER_DOCS=true; shift ;;
     -m | --minimal ) MINIMAL_BUILD=true; shift ;;
   esac
 done
 
-# Always skip building images to prevent Docker in Docker. Neo4j mandatory for testing some GLVs with docker-compose.
-TINKERPOP_BUILD_OPTIONS="-DskipImageBuild -DincludeNeo4j"
+# Always skip building images to prevent Docker in Docker.
+TINKERPOP_BUILD_OPTIONS="-DskipImageBuild"
 
 [ -z "${RUN_TESTS}" ] && TINKERPOP_BUILD_OPTIONS="${TINKERPOP_BUILD_OPTIONS} -DskipTests"
 [ -z "${RUN_INTEGRATION_TESTS}" ] || TINKERPOP_BUILD_OPTIONS="${TINKERPOP_BUILD_OPTIONS} -DskipIntegrationTests=false"
+[ -z "${INCLUDE_NEO4J}" ] || TINKERPOP_BUILD_OPTIONS="${TINKERPOP_BUILD_OPTIONS} -DincludeNeo4j"
 [ -z "${BUILD_JAVA_DOCS}" ] && TINKERPOP_BUILD_OPTIONS="${TINKERPOP_BUILD_OPTIONS} -Dmaven.javadoc.skip=true"
 
 # If the tmpfs (in-memory filesystem exists, use it)

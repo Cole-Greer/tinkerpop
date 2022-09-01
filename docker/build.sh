@@ -40,6 +40,7 @@ function usage {
           "\n\nOptions are:\n" \
           "\n\t-t,  --tests              run standard test suite for modules except non-Java GLVs" \
           "\n\t-i,  --integration-tests  run integration tests for modules except non-Java GLVs" \
+          "\n\t-n,  --neo4j              include Neo4j" \
           "\n\t-a,  --all                run tests for all non-Java GLVs and gremlin-console" \
           "\n\t-go, --golang             run tests for Go GLV" \
           "\n\t-py, --python             run tests for Python GLV" \
@@ -63,6 +64,7 @@ while [ ! -z "$1" ]; do
   case "$1" in
     -t  | --tests ) ARGS="${ARGS} -t"; shift ;;
     -i  | --integration-tests ) ARGS="${ARGS} -i"; shift ;;
+    -n  | --neo4j ) ARGS="${ARGS} -n"; shift ;;
     -a  | --all ) INCLUDE_GO=true; INCLUDE_PYTHON=true; INCLUDE_DOTNET=true; INCLUDE_JAVASCRIPT=true; INCLUDE_CONSOLE=true; shift ;;
     -go | --golang ) INCLUDE_GO=true; shift ;;
     -py | --python ) INCLUDE_PYTHON=true; shift ;;
