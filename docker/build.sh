@@ -46,6 +46,7 @@ function usage {
           "\n\t-dn, --dotnet             run tests for Dotnet GLV" \
           "\n\t-js, --javascript         run tests for JavaScript GLV" \
           "\n\t-c,  --console            run tests for gremlin-console" \
+          "\n\t-m,  --minimal            build only the modules required to test GLVs (driver, server, test, console, neo4j)" \
           "\n\t-j,  --java-docs          build Java docs" \
           "\n\t-d,  --docs               build user docs" \
           "\n\t-h,  --help               show this message" \
@@ -68,6 +69,7 @@ while [ ! -z "$1" ]; do
     -dn | --dotnet ) INCLUDE_DOTNET=true; shift ;;
     -js | --javascript ) INCLUDE_JAVASCRIPT=true; shift ;;
     -c  | --console ) INCLUDE_CONSOLE=true; shift ;;
+    -m  | --minimal ) ARGS="${ARGS} -m"; shift ;;
     -j  | --java-docs ) ARGS="${ARGS} -j"; shift ;;
     -d  | --docs ) ARGS="${ARGS} -d"; shift ;;
     -h  | --help ) usage; exit 0 ;;

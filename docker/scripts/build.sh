@@ -22,6 +22,7 @@ RUN_TESTS=
 RUN_INTEGRATION_TESTS=
 BUILD_JAVA_DOCS=
 BUILD_USER_DOCS=
+MINIMAL_BUILD=
 
 while [ ! -z "$1" ]; do
   case "$1" in
@@ -29,6 +30,7 @@ while [ ! -z "$1" ]; do
     -i | --integration-tests ) RUN_INTEGRATION_TESTS=true; shift ;;
     -j | --java-docs ) BUILD_JAVA_DOCS=true; shift ;;
     -d | --docs ) BUILD_USER_DOCS=true; shift ;;
+    -m | --minimal ) MINIMAL_BUILD=true; shift ;;
   esac
 done
 
@@ -58,8 +60,14 @@ if [ -r "settings.xml" ]; then
 fi
 
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+if [ -n "${MINIMAL_BUILD}" ]; then
+mvn clean install -pl gremlin-driver,gremlin-server,gremlin-test,gremlin-console,neo4j-gremlin --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
+else
 # The non-Java GLVs are run separately later with their own specific docker-compose.
-mvn clean install process-resources -pl !gremlin-go,!gremlin-python,!gremlin-dotnet,!gremlin-javascript  --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
+mvn clean install process-resources -pl !gremlin-go,!gremlin-python,!gremlin-dotnet,!gremlin-javascript --batch-mode ${TINKERPOP_BUILD_OPTIONS} || exit 1
+fi
+
 [ -z "${BUILD_JAVA_DOCS}" ] || mvn process-resources -Djavadoc || exit 1
 
 if [ ! -z "${BUILD_USER_DOCS}" ]; then
